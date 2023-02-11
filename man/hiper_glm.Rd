@@ -4,12 +4,14 @@
 \alias{hiper_glm}
 \title{GLM function for high-dimensional data}
 \usage{
-hiper_glm(desgin, outcome, model = "linear")
+hiper_glm(desgin, outcome, supported_model = "linear")
 }
 \arguments{
-\item{outcome, }{the outcome vector/matrix of the model}
+\item{outcome}{the outcome vector/matrix of the model}
 
-\item{design, }{the design matrix}
+\item{supported_model}{choose the type of GLM}
+
+\item{design}{the design matrix}
 }
 \value{
 S3 object of the model fitting output

@@ -7,7 +7,7 @@
 \method{vcov}{hglm}(hglm_out)
 }
 \arguments{
-\item{hglm_out, }{output of the GLM model}
+\item{hglm_out}{output of the GLM model}
 }
 \value{
 variance-covariance matrix of the GLM model

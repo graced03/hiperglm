@@ -1,13 +1,14 @@
 #' GLM function for high-dimensional data
 #'
-#' @param design, the design matrix
-#' @param outcome, the outcome vector/matrix of the model
+#' @param design the design matrix
+#' @param outcome the outcome vector/matrix of the model
+#' @param supported_model choose the type of GLM
 #'
 #' @return S3 object of the model fitting output
 #'
 #' @export
 #'
-hiper_glm <- function(desgin, outcome, model = "linear"){
+hiper_glm <- function(desgin, outcome, supported_model = "linear"){
   # init_coef can be an optional argument for more advanced users
   supporeted_model <- c("linear","logit")
   if (!model %in% supported_model){

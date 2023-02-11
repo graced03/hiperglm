@@ -7,7 +7,7 @@
 \method{coef}{hglm}(hglm_out)
 }
 \arguments{
-\item{hglm_out, }{output of the GLM model}
+\item{hglm_out}{output of the GLM model}
 }
 \value{
 coefficient vector
