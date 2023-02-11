@@ -12,7 +12,7 @@ hiper_glm <- function(desgin, outcome, supported_model = "linear"){
   # init_coef can be an optional argument for more advanced users
   supporeted_model <- c("linear","logit")
   if (!model %in% supported_model){
-    stop(sprintf("The model %s is not supported!", model))
+    stop(sprintf("The model %s is not supported!", supported_model))
   }
   # TODO: find MLE
   hglm_out <- list()
