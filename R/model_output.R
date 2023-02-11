@@ -1,6 +1,6 @@
 #' Coefficients of the GLM model
 #'
-#' @param hglm_out, output of the GLM model
+#' @param hglm_out output of the GLM model
 #'
 #' @return coefficient vector
 #'
@@ -12,7 +12,7 @@ coef.hglm <- function(hglm_out){
 
 #' Variance-covariance matrix of the GLM model
 #'
-#' @param hglm_out, output of the GLM model
+#' @param hglm_out output of the GLM model
 #'
 #' @return variance-covariance matrix of the GLM model
 #'
@@ -24,7 +24,7 @@ vcov.hglm <- function(hglm_out){
 
 #' Print the GLM model fitting results
 #'
-#' @param hglm_out, output of the GLM model
+#' @param hglm_out output of the GLM model
 #'
 #' @return summary statistics of the GLM model
 #'
