@@ -7,6 +7,7 @@ test_that("linalg and optim least-sq coincide", {
     design, outcome, model = 'linear', option = list(mle_solver = 'BFGS')
   )
   expect_true(are_all_close(
-    coef(via_linalg_out), coef(via_bfgs_out), abs_tol = 1e-2, rel_tol = 1e-2
+    via_linalg_out$coef, via_bfgs_out$coef, abs_tol = 1e-2, rel_tol = 1e-2
   ))
 })
+
