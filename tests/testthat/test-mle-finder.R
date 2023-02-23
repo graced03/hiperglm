@@ -1,4 +1,4 @@
-test_that("linalg and optim least-sq coincide", {
+testthat::test_that("linalg and optim least-sq coincide", {
   n_obs <- 32; n_pred <- 4
   data <- simulate_data(n_obs, n_pred, model = 'linear', seed = 1918)
   design <- data$design; outcome <- data$outcome
