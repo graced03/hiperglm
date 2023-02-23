@@ -70,15 +70,3 @@ lm_bfgs <- function(X, y, noise_var = 1){
   return (bfgs_est$par)
 }
 
-# set.seed(410)
-# n_param <- 3
-# X <- matrix(rnorm(2 * n_param^2), nrow = 2 * n_param, ncol = n_param)
-# y <- c(33, 10, 39)
-# betas <- c(1,2,3)
-#
-# numerical_grad <- lm_log_likelihood_grad(X, y, betas)
-# analytical_grad <- lm_log_likelihood_approx_grad(X, y, betas)
-#
-# testthat::expect_true(are_all_close(
-#   analytical_grad, numerical_grad, abs_tol = Inf, rel_tol = 1e-3
-# ))
