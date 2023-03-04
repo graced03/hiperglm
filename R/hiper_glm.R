@@ -14,7 +14,7 @@ hiper_glm <- function(X, y, model = "linear", option = list(mle_solver="OLS")){
   if (!model %in% supported_model){
     stop(sprintf("The model %s is not supported!", model))
   }
-  hglm_out <- list()
+    hglm_out <- list()
   class(hglm_out) <- "hglm"
 
   if (model == "linear"){
@@ -32,4 +32,3 @@ hiper_glm <- function(X, y, model = "linear", option = list(mle_solver="OLS")){
   }
   return(hglm_out)
 }
-
