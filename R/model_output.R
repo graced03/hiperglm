@@ -7,7 +7,7 @@
 #' @export
 #'
 coef.hglm <- function(hglm_out){
-  warning("To be implemented.")
+  return(hglm_out$coef)
 }
 
 #' Variance-covariance matrix of the GLM model
@@ -31,5 +31,5 @@ vcov.hglm <- function(hglm_out){
 #' @export
 #'
 print.hglm <- function(hglm_out){
-  cat("Output of hiper_glm.")
+  cat("`hiper_glm` output\n")
 }
