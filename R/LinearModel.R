@@ -16,10 +16,12 @@ lm_ols <- function(X, y){
 #' @param betas coefficients of the linear model
 #' @param noise_var an estimate of the residual variance
 #'
-#' @return S3 object of the model fitting output
+#' @return log-likelihood of linear regression
 #'
 lm_log_likelihood <- function(X, y, betas, noise_var = 1) {
-  return (- t(y - X %*% betas) %*% (y - X %*% betas)/noise_var/2)
+  eta <- X %*% betas
+  residual <- y - eta
+  return (- sum(residual^2) / noise_var / 2)
 }
 
 #' Analytical gradients of the log-likelihood of linear regression
@@ -35,38 +37,26 @@ lm_log_likelihood_grad <- function(X, y, betas, noise_var = 1){
   return (t(X) %*% y - t(X) %*% X %*% betas)
 }
 
-#' Approximate gradients of the log-likelihood of linear regression
-#' the approximate is achieved via finite difference
-#'
-#' @param X the design matrix
-#' @param y the outcome vector/matrix of the model
-#' @param betas coefficients of the linear model
-#' @param noise_var an estimate of the residual variance
-#'
-#' @return numerical gradients of the log-likelihood of linear regression via finite difference
-#'
-lm_log_likelihood_approx_grad <- function(X, y, betas, noise_var = 1){
-  approx_grad(func = function(betas) lm_log_likelihood(X, y, betas, noise_var), x = betas)
-}
-
-
 #' Linear regression MLE estimation via BFGS
 #' BFGS is a quasi-Newton method (also known as a variable metric algorithm),
 #' specifically that published simultaneously in 1970 by Broyden, Fletcher, Goldfarb and Shanno.
+#' Here we use the optim function for BFGS implementation
 #'
 #' @param X the design matrix
 #' @param y the outcome vector/matrix of the model
+#' @param noise_var an estimate of the residual variance
 #'
 #' @return linear regression MLE coefficient estimated via BFGS
 #'
 lm_bfgs <- function(X, y, noise_var = 1){
-  # the number of coefficients is the same as the number of cols in the design matrix X
   init_coef <- rep(0, ncol(X))
-  #  the BFGS method from optim
-  bfgs_est <- stats::optim(par = init_coef, fn = lm_log_likelihood, gr = lm_log_likelihood_approx_grad,
-                           X=X, y=y, method = "BFGS",
+  bfgs_est <- stats::optim(par = init_coef, fn = lm_log_likelihood, gr = lm_log_likelihood_grad,
+                           X = X, y = y, noise_var = noise_var, method = "BFGS",
                            control=list(fnscale=-1))
-  # return the best set of parameters found
+  optim_converged <- (bfgs_est$convergence == 0L)
+  if (!optim_converged) {
+    warning("Optimization did not converge.")
+  }
   return (bfgs_est$par)
 }
 
