@@ -67,3 +67,16 @@ simulate_data <- function(
   }
   return(list(design = design, outcome = outcome, coef_true = coef_true))
 }
+
+approx_grad <- function(func, x, dx = .Machine$double.eps^(1/3)) {
+  numerical_grad <- sapply(1:length(x), function(i) approx_partial_grad(i, func, x, dx))
+  return(numerical_grad)
+}
+
+approx_partial_grad <- function(i, func, x, dx = .Machine$double.eps^(1/3)) {
+  delta_x <- rep(0, length(x))
+  delta_x[i] <- dx
+  return ((func(x + delta_x) - func(x - delta_x)) / (2*dx))
+}
+
+

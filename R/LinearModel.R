@@ -19,8 +19,8 @@ lm_ols <- function(X, y){
 #' @return log-likelihood of linear regression
 #'
 lm_log_likelihood <- function(X, y, betas, noise_var = 1) {
-  eta <- X %*% betas
-  residual <- y - eta
+  fitted <- X %*% betas
+  residual <- y - fitted
   return (- sum(residual^2) / noise_var / 2)
 }
 

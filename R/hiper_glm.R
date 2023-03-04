@@ -9,26 +9,49 @@
 #'
 #' @export
 #'
-hiper_glm <- function(X, y, model = "linear", option = list(mle_solver="OLS")){
+hiper_glm <- function(X, y, model = "linear", option = list()){
   supported_model <- c("linear","logit")
   if (!model %in% supported_model){
     stop(sprintf("The model %s is not supported!", model))
   }
-    hglm_out <- list()
-  class(hglm_out) <- "hglm"
-
   if (model == "linear"){
-    if (option$mle_solver == "OLS") {
-      hglm_out$coef <- lm_ols(X, y)
-      hglm_out$mle_solver <- "OLS"
-    }
-    else if (option$mle_solver == "BFGS") {
-      hglm_out$coef <- lm_bfgs(X, y)
-      hglm_out$mle_solver <- "BGFS"
-    }
-    else {
-      stop(sprintf("MLE solvers other than OLS and BFGS have not been implemented!"))
-    }
+    hglm_out <- linear_regression(X, y, option)
   }
-  return(hglm_out)
+  else {
+    hglm_out <- logistic_regression(X, y, option)
+  }
+  class(hglm_out) <- "hglm"
+  return (hglm_out)
 }
+
+linear_regression <- function(X, y, option = list(mle_solver="OLS")){
+  if (option$mle_solver == "OLS") {
+    return(list(coef = lm_ols(X, y),
+                mle_solver = "OLS"))
+  }
+  else if (option$mle_solver == "BFGS") {
+    return(list(coef = lm_bfgs(X, y),
+                mle_solver = "BFGS"))
+  }
+  else {
+    stop(sprintf("MLE solvers other than OLS and BFGS have not been implemented!"))
+  }
+}
+
+logistic_regression <- function(X, y, option = list(mle_solver="newton-raphson")){
+  if (option$mle_solver == "newton-raphson") {
+    return(list(coef = logistic_newton_raphson(X, y),
+                mle_solver = "newton-raphson"))
+  }
+  else if (option$mle_solver == "BFGS") {
+    return(list(coef = logistic_bfgs(X, y),
+                mle_solver = "BFGS"))
+  }
+  else {
+    stop(sprintf("MLE solvers other than Newton-Raphson and BFGS have not been implemented!"))
+  }
+}
+
+
+
+
