@@ -2,7 +2,7 @@
 #'
 #' @param X the design matrix
 #' @param y the outcome vector/matrix of the model
-#' @param model choose the type of GLM
+#' @param model choose the type of GLM, currently supporting linear regression or logistic regression
 #' @param option optional settings for the model, including the choice of MLE solver
 #'
 #' @return S3 object of the model fitting output
