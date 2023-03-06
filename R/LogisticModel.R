@@ -27,7 +27,7 @@ logistic_bfgs <- function(X, y){
   return (bfgs_est$par)
 }
 
-newton_raphson <- function(X, y, tol = 1e-8, iter_max = 100) {
+newton_raphson <- function(X, y, atol = 1e-8, rtol = 1e-8, iter_max = 100) {
   beta <- rep(0, ncol(X))
 
   i <- 0
@@ -44,7 +44,10 @@ newton_raphson <- function(X, y, tol = 1e-8, iter_max = 100) {
     beta <- beta + deltaBeta
     new_log_likelihood <- logistic_log_likelihood(X, y, beta)
 
-    if (abs(new_log_likelihood - prev_log_likelihood) < tol) {
+    abs_diff <- abs(new_log_likelihood - prev_log_likelihood)
+    rel_diff <- abs_diff * max(new_log_likelihood, prev_log_likelihood)
+
+    if ((abs_diff < atol) && (rel_diff < rtol)) {
       convergence <- TRUE
       break
     }

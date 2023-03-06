@@ -1,13 +1,3 @@
-#' Approximate gradients of the log-likelihood of linear regression
-#' the approximate is achieved via finite difference
-#'
-#' @param X the design matrix
-#' @param y the outcome vector/matrix of the model
-#' @param betas coefficients of the linear model
-#' @param noise_var an estimate of the residual variance
-#'
-#' @return numerical gradients of the log-likelihood of linear regression via finite difference
-#'
 lm_log_likelihood_approx_grad <- function(X, y, betas, noise_var = 1){
   approx_grad(func = function(betas) lm_log_likelihood(X, y, betas, noise_var), x = betas)
 }
