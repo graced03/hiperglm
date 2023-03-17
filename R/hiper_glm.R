@@ -14,42 +14,51 @@ hiper_glm <- function(X, y, model = "linear", option = list()){
   if (!model %in% supported_model){
     stop(sprintf("The model %s is not supported!", model))
   }
-  if (model == "linear"){
-    hglm_out <- linear_regression(X, y, option)
-  }
-  else {
-    hglm_out <- logistic_regression(X, y, option)
-  }
+  hglm_out <- find_mle(X, y, model, option)
   class(hglm_out) <- "hglm"
   return (hglm_out)
 }
 
-linear_regression <- function(X, y, option = list(mle_solver="OLS")){
-  if (option$mle_solver == "OLS") {
-    return(list(coef = lm_ols(X, y),
-                mle_solver = "OLS"))
-  }
-  else if (option$mle_solver == "BFGS") {
-    return(list(coef = lm_bfgs(X, y),
-                mle_solver = "BFGS"))
-  }
-  else {
-    stop(sprintf("MLE solvers other than OLS and BFGS have not been implemented!"))
+find_mle <- function(X, y, model, option) {
+  if (is.null(option$mle_solver)) {
+    if (model == "linear"){
+      return(list(coef = lm_ols(X, y), mle_solver = "OLS"))
+    } else {
+      return(list(coef = newton_raphson(X, y),
+                  mle_solver = "newton-raphson"))
+    }
+  } else {
+    return(list(coef = solve_via_bfgs(X, y, model, method = option$mle_solver), mle_solver = "BFGS"))
   }
 }
 
-logistic_regression <- function(X, y, option = list(mle_solver="newton-raphson")){
-  if (option$mle_solver == "newton-raphson") {
-    return(list(coef = logistic_newton_raphson(X, y),
-                mle_solver = "newton-raphson"))
+solve_via_bfgs <- function(X, y, model, method) {
+  init_coef <- rep(0, ncol(X))
+  if (model == "linear") {
+    fn <- function(betas) {
+      lm_log_likelihood(X, y, betas)
+    }
+    grad <- function(betas) {
+      lm_log_likelihood_grad(X, y, betas)
+    }
+  } else {
+    fn <- function(betas) {
+      logistic_log_likelihood(X, y, betas)
+    }
+    grad <- function(betas) {
+      logistic_log_likelihood_grad(X, y, betas)
+    }
   }
-  else if (option$mle_solver == "BFGS") {
-    return(list(coef = logistic_bfgs(X, y),
-                mle_solver = "BFGS"))
+  bfgs_est <- stats::optim(par = init_coef,
+                           fn = fn,
+                           gr = grad,
+                           method = method,
+                           control=list(fnscale=-1))
+  optim_converged <- (bfgs_est$convergence == 0L)
+  if (!optim_converged) {
+    warning("Optimization did not converge.")
   }
-  else {
-    stop(sprintf("MLE solvers other than Newton-Raphson and BFGS have not been implemented!"))
-  }
+  return (bfgs_est$par)
 }
 
 
