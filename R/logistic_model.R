@@ -58,7 +58,7 @@ optimizer_via_qr <- function(X, y, betas){
   W_sqrt <- diag(sqrt(y_hat_var))
   X_tilda <- W_sqrt %*% X
   z_tilda <- W_sqrt %*% z
-  return (qr.solve(X_tilda, z_tilda))
+  return (qr_eigen(X_tilda, z_tilda))
 }
 solve_via_lu <- function(X, y, betas){
   grad <- logistic_log_likelihood_grad(X, y, betas)
@@ -66,3 +66,4 @@ solve_via_lu <- function(X, y, betas){
   delta_betas <- solve(hessian, grad)
   return (betas - delta_betas)
 }
+

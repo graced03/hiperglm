@@ -34,6 +34,6 @@ test_that("QR- and LU-based solvers coincide on logit model", {
     design, outcome, model = "logit", option = list(optimizer = "LU")
   )
   expect_true(are_all_close(
-    coef(via_newton_out), coef(via_bfgs_out), abs_tol = 1e-3, rel_tol = 1e-3
+    coef(via_qr_out), coef(via_lu_out), abs_tol = 1e-3, rel_tol = 1e-3
   ))
 })

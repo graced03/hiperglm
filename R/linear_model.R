@@ -3,7 +3,7 @@ lm_ols <- function(X, y){
 }
 
 solve_ols_via_qr <- function(X, y){
-  return (qr.solve(X,y))
+  return (qr_eigen(X,y))
 }
 lm_log_likelihood <- function(X, y, betas, noise_var = 1) {
   fitted <- X %*% betas

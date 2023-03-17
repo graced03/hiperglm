@@ -14,3 +14,8 @@ LazyData: true
 RoxygenNote: 7.2.3
 Suggests: 
     testthat (>= 3.0.0)
+LinkingTo: 
+    Rcpp,
+    RcppEigen
+Imports: 
+    Rcpp
