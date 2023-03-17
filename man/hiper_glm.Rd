@@ -4,14 +4,16 @@
 \alias{hiper_glm}
 \title{GLM function for high-dimensional data}
 \usage{
-hiper_glm(desgin, outcome, model = "linear")
+hiper_glm(X, y, model = "linear", option = list())
 }
 \arguments{
-\item{outcome}{the outcome vector/matrix of the model}
+\item{X}{the design matrix}
 
-\item{model}{choose the type of GLM}
+\item{y}{the outcome vector/matrix of the model}
 
-\item{design}{the design matrix}
+\item{model}{choose the type of GLM, currently supporting linear regression or logistic regression}
+
+\item{option}{optional settings for the model, including the choice of MLE solver}
 }
 \value{
 S3 object of the model fitting output
