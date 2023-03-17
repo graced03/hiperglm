@@ -22,9 +22,9 @@ hiper_glm <- function(X, y, model = "linear", option = list()){
 find_mle <- function(X, y, model, option) {
   if (is.null(option$mle_solver)) {
     if (model == "linear"){
-      return(list(coef = lm_ols(X, y), mle_solver = "OLS"))
+      return(list(coef = solve_ols_via_qr(X, y), mle_solver = "OLS"))
     } else {
-      return(list(coef = newton_raphson(X, y),
+      return(list(coef = newton_raphson(X, y, option$optimizer),
                   mle_solver = "newton-raphson"))
     }
   } else {

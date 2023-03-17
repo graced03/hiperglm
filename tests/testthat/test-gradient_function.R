@@ -29,6 +29,6 @@ test_that("Logistic model - comparing the numerical gradients via finite differe
   expect_true(are_all_close(
     logistic_log_likelihood_grad(design, outcome, coef),
     logistic_log_likelihood_approx_grad(design, outcome, coef),
-    abs_tol = 1e-5, rel_tol = 1e-5
+    abs_tol = 1e-6, rel_tol = 1e-6
   ))
 })
